@@ -113,6 +113,22 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
         schema=None,
         func="async_force_frame",
     )
+    service.async_register_platform_entity_service(
+        hass,
+        DOMAIN,
+        "set_privacy_mask",
+        entity_domain=BINARY_SENSOR_DOMAIN,
+        entity_device_classes=[BinarySensorDeviceClass.MOTION],
+        schema={
+            vol.Required("index"): vol.All(vol.Coerce(int), vol.Range(min=0, max=7)),
+            vol.Required("enabled"): cv.boolean,
+            vol.Required("x1"): vol.All(vol.Coerce(int), vol.Range(min=0, max=8191)),
+            vol.Required("y1"): vol.All(vol.Coerce(int), vol.Range(min=0, max=8191)),
+            vol.Required("x2"): vol.All(vol.Coerce(int), vol.Range(min=0, max=8191)),
+            vol.Required("y2"): vol.All(vol.Coerce(int), vol.Range(min=0, max=8191)),
+        },
+        func="async_set_privacy_mask",
+    )
 
     async def _discover(*_: object) -> None:
         for camera in await async_discover():

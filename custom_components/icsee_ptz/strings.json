@@ -149,6 +149,15 @@
       "exposure_time": {
         "name": "Exposure time"
       },
+      "image_acutance": {
+        "name": "Image acutance"
+      },
+      "image_whitebalance": {
+        "name": "Image white balance"
+      },
+      "image_gain": {
+        "name": "Image gain"
+      },
       "storage_total": {
         "name": "SD card size"
       },
@@ -797,6 +806,36 @@
     "force_frame": {
       "name": "Force frame",
       "description": "Force the camera to send a new frame. Useful to speed up video start."
+    },
+    "set_privacy_mask": {
+      "name": "Set privacy mask",
+      "description": "Set one privacy mask (cover) region. Coordinates are in the camera's 0-8191 virtual canvas, independent of the stream resolution.",
+      "fields": {
+        "index": {
+          "name": "Mask index",
+          "description": "Which cover slot to set (0-based; the camera has a fixed number of slots, typically 4)."
+        },
+        "enabled": {
+          "name": "Enabled",
+          "description": "Whether this mask is shown/blended into the video."
+        },
+        "x1": {
+          "name": "Left (x1)",
+          "description": "Left edge, 0-8191."
+        },
+        "y1": {
+          "name": "Top (y1)",
+          "description": "Top edge, 0-8191."
+        },
+        "x2": {
+          "name": "Right (x2)",
+          "description": "Right edge, 0-8191."
+        },
+        "y2": {
+          "name": "Bottom (y2)",
+          "description": "Bottom edge, 0-8191."
+        }
+      }
     }
   }
 }

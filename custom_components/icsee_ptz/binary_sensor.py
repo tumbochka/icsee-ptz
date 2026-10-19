@@ -15,7 +15,7 @@ from homeassistant.components.binary_sensor import (
 )
 from homeassistant.const import EntityCategory
 from homeassistant.core import CALLBACK_TYPE, HomeAssistant, callback
-from homeassistant.exceptions import HomeAssistantError
+from homeassistant.exceptions import HomeAssistantError, ServiceValidationError
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.event import async_call_later
 
@@ -238,6 +238,39 @@ class MotionAlarm(ICSeeEntity, BinarySensorEntity):
 
     async def async_force_frame(self) -> None:
         await _run(self.device.async_force_frame())
+
+    async def async_set_privacy_mask(
+        self, index: int, enabled: bool, x1: int, y1: int, x2: int, y2: int
+    ) -> None:
+        """Set one AVEnc.VideoWidget.Covers[index] privacy mask region.
+
+        Coordinates are in the camera's 0-8191 virtual canvas (RelativePos),
+        independent of the actual stream resolution - same system as the
+        human/motion detection regions. This writes the whole config object
+        back (GET -> mutate one Covers entry -> SET -> GET to verify), same
+        as every other write in this integration.
+        """
+
+        def mutate(obj: Any) -> None:
+            covers = obj.get("Covers") or []
+            if index >= len(covers):
+                raise ServiceValidationError(
+                    translation_domain=DOMAIN,
+                    translation_key="invalid_option",
+                    translation_placeholders={
+                        "option": f"index {index} (camera has {len(covers)} cover slots)"
+                    },
+                )
+            cover = covers[index]
+            cover["RelativePos"] = [x1, y1, x2, y2]
+            cover["EncodeBlend"] = enabled
+            cover["PreviewBlend"] = enabled
+
+        await _run(
+            self.coordinator.async_update_config(
+                "AVEnc.VideoWidget", self.channel, mutate
+            )
+        )
 
 
 async def _run(coro: Any) -> None:

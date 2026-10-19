@@ -129,6 +129,36 @@ SENSORS: tuple[ICSeeSensorEntityDescription, ...] = (
         path=("VideoFormat",),
         entity_category=EntityCategory.DIAGNOSTIC,
     ),
+    # Acutance (sharpness), white balance and gain also live in
+    # AVEnc.VideoColor[0].VideoColorParam alongside brightness/contrast/
+    # saturation/hue (see number.py's _color()), but their scale isn't the
+    # plain 0-100 the UI brightness/contrast/etc. sliders use (Acutance in
+    # particular is seen in the thousands), and the app doesn't expose them
+    # as a simple range either - read-only until that's understood.
+    ICSeeSensorEntityDescription(
+        key="image_acutance",
+        translation_key="image_acutance",
+        config="AVEnc.VideoColor",
+        path=(0, "VideoColorParam", "Acutance"),
+        state_class=SensorStateClass.MEASUREMENT,
+        entity_category=EntityCategory.DIAGNOSTIC,
+    ),
+    ICSeeSensorEntityDescription(
+        key="image_whitebalance",
+        translation_key="image_whitebalance",
+        config="AVEnc.VideoColor",
+        path=(0, "VideoColorParam", "Whitebalance"),
+        state_class=SensorStateClass.MEASUREMENT,
+        entity_category=EntityCategory.DIAGNOSTIC,
+    ),
+    ICSeeSensorEntityDescription(
+        key="image_gain",
+        translation_key="image_gain",
+        config="AVEnc.VideoColor",
+        path=(0, "VideoColorParam", "Gain"),
+        state_class=SensorStateClass.MEASUREMENT,
+        entity_category=EntityCategory.DIAGNOSTIC,
+    ),
     ICSeeSensorEntityDescription(
         # restarts because the video encoder or input stopped working
         key="abnormal_restarts",

@@ -63,3 +63,50 @@ force_frame:
       integration: icsee_ptz
       domain: binary_sensor
       device_class: motion
+set_privacy_mask:
+  target:
+    entity:
+      integration: icsee_ptz
+      domain: binary_sensor
+      device_class: motion
+  fields:
+    index:
+      required: true
+      selector:
+        number:
+          mode: box
+          min: 0
+          max: 7
+    enabled:
+      required: true
+      default: true
+      selector:
+        boolean:
+    x1:
+      required: true
+      selector:
+        number:
+          mode: box
+          min: 0
+          max: 8191
+    y1:
+      required: true
+      selector:
+        number:
+          mode: box
+          min: 0
+          max: 8191
+    x2:
+      required: true
+      selector:
+        number:
+          mode: box
+          min: 0
+          max: 8191
+    y2:
+      required: true
+      selector:
+        number:
+          mode: box
+          min: 0
+          max: 8191
