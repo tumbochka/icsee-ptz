@@ -161,6 +161,14 @@
         "name": "Video name text"
       }
     },
+    "time": {
+      "white_light_start": {
+        "name": "White light schedule start"
+      },
+      "white_light_end": {
+        "name": "White light schedule end"
+      }
+    },
     "button": {
       "ptz_stop": {
         "name": "PTZ stop"
@@ -250,6 +258,9 @@
       },
       "white_light": {
         "name": "White light"
+      },
+      "white_light_schedule": {
+        "name": "White light schedule"
       },
       "white_light_one_key": {
         "name": "White light (manual)"

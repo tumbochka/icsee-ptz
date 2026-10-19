@@ -114,6 +114,16 @@ SWITCHES: tuple[ICSeeSwitchEntityDescription, ...] = (
         off_value="Close",
         ability="SystemFunction.OtherFunction.SupportCameraWhiteLight",
     ),
+    ICSeeSwitchEntityDescription(
+        key="white_light_schedule",
+        translation_key="white_light_schedule",
+        config="Camera.WhiteLight",
+        path=("WorkPeriod", "Enable"),
+        on_value=1,
+        off_value=0,
+        ability="SystemFunction.OtherFunction.SupportCameraWhiteLight",
+        entity_category=EntityCategory.CONFIG,
+    ),
     _param_ex(
         "white_light_one_key",
         "OneKeyOpenWL",
